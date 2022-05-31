@@ -1,0 +1,68 @@
+version: "3"
+
+networks:
+  network-zabbix:
+    driver: bridge
+
+services:
+  mysql:
+    container_name: mysql
+    image: "${mysql_image_name}"
+    networks:
+      - network-zabbix
+    ports:
+      - "3306:3306"
+    volumes:
+      - "${mysql_dump_dir}:/docker-entrypoint-initdb.d/:ro"
+      - "${mysql_data_dir}:/var/lib/mysql:rw"
+    env_file:
+      - mysql.env
+    command: ["mysqld", "--character-set-server=utf8mb4","--collation-server=utf8mb4_bin"]
+
+  zabbix-server:
+    container_name: zabbix-server
+    image: "${zabbix_server_image_name}"
+    networks:
+      - network-zabbix
+    restart: always
+    ports:
+      - "10051:10051"
+    volumes:
+      - "${zabbix_srv_alertscripts_dir}:/usr/lib/zabbix/alertscripts:rw"
+      - "${zabbix_srv_externalscripts_dir}:/usr/lib/zabbix/externalscripts:rw"
+      - "${zabbix_srv_modules_dir}:/var/lib/zabbix/modules:rw"
+      - "${zabbix_srv_enc_dir}:/var/lib/zabbix/enc:rw"
+      - "${zabbix_srv_ssh_keys_dir}:/var/lib/zabbix/ssh_keys:rw"
+      - "${zabbix_srv_ssl_certs_dir}:/var/lib/zabbix/ssl/certs:rw"
+      - "${zabbix_srv_ssl_keys_dir}:/var/lib/zabbix/ssl/keys:rw"
+      - "${zabbix_srv_export_dir}:/var/lib/zabbix/export:rw"
+    env_file:
+      - server.env
+
+  zabbix-web-nginx:
+    container_name: zabbix-web-nginx
+    image: "${zabbix_web_nginx_image_name}"
+    networks:
+      - network-zabbix
+    restart: always
+    ports:
+      - "8080:8080"
+      - "443:443"
+    volumes:
+      - "${zabbix_web_certs}:/etc/zabbix/web/certs:rw"
+    env_file:
+      - web-nginx.env
+
+  zabbix-agent:
+    container_name: zabbix-agent
+    image: "${zabbix_agent_image_name}"
+    networks:
+      - network-zabbix
+    volumes:
+      - "${zabbix_agent_d_dir}:/etc/zabbix/zabbix_agentd.d"
+      - "${zabbix_agent_modules_dir}:/var/lib/zabbix/modules"
+      - "${zabbix_agent_enc_dir}:/var/lib/zabbix/enc"
+    env_file:
+      - agent.env
+    ports:
+      - "10050:10050"
