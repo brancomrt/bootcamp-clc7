@@ -31,7 +31,7 @@ module "zabbix_sg" {
   egress_rules        = ["all-all"]
 }
 
-module "ec2_instance" {
+module "zabbix_instance" {
   source  = "terraform-aws-modules/ec2-instance/aws"
   version = "~> 3.0"
 
@@ -43,7 +43,7 @@ module "ec2_instance" {
   monitoring             = true
   vpc_security_group_ids = [module.zabbix_sg.security_group_id]
   subnet_id              = module.vpc.public_subnets[0]
-  user_data              = file("./dependencias.sh")
+  user_data              = file("./dependencias_zabbix_ec2.sh")
 
   tags = {
     Terraform = "true"
@@ -55,10 +55,53 @@ module "ec2_instance" {
 }
 
 resource "aws_eip" "zabbix-ip" {
-  instance = module.ec2_instance.id
+  instance = module.zabbix_instance.id
   vpc      = true
 
   tags = {
     Name = "Zabbix-Server-ElasticIP"
+  }
+}
+
+module "webserver_sg" {
+  source = "terraform-aws-modules/security-group/aws"
+
+  name        = "WebServer-SG"
+  description = "Security group para instancia do Web Server NGINX"
+  vpc_id      = module.vpc.vpc_id   
+  ingress_cidr_blocks = ["0.0.0.0/0"]
+  ingress_rules       = ["ssh-tcp", "http-80-tcp"]
+  egress_rules        = ["all-all"]
+}
+
+module "webserver_instance" {
+  source  = "terraform-aws-modules/ec2-instance/aws"
+  version = "~> 3.0"
+
+  name = "Web-Server"
+
+  ami                    = "ami-03ededff12e34e59e"
+  instance_type          = "t2.micro"
+  key_name               = "vockey"
+  monitoring             = true
+  vpc_security_group_ids = [module.webserver_sg.security_group_id]
+  subnet_id              = module.vpc.public_subnets[0]
+  user_data              = file("./dependencias_webserver_ec2.sh")
+
+  tags = {
+    Terraform = "true"
+    Environment = "Producao"
+    OwnerSquad = "Houston"
+    OwnerSRE = "Texas"
+    Team = "Devops-CLC_07"    
+  } 
+}
+
+resource "aws_eip" "webserver-ip" {
+  instance = module.webserver_instance.id
+  vpc      = true
+
+  tags = {
+    Name = "WebServer-ElasticIP"
   }
 }

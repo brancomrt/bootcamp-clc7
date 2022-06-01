@@ -18,6 +18,8 @@ services:
     env_file:
       - mysql.env
     command: ["mysqld", "--character-set-server=utf8mb4","--collation-server=utf8mb4_bin"]
+    security_opt:
+      - seccomp:unconfined
 
   zabbix-server:
     container_name: zabbix-server
