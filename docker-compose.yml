@@ -26,6 +26,8 @@ services:
     image: "${zabbix_server_image_name}"
     networks:
       - network-zabbix
+    links:
+      - mysql
     restart: always
     ports:
       - "10051:10051"
@@ -40,12 +42,16 @@ services:
       - "${zabbix_srv_export_dir}:/var/lib/zabbix/export:rw"
     env_file:
       - server.env
+    depends_on:
+      - mysql
 
   zabbix-web-nginx:
     container_name: zabbix-web-nginx
     image: "${zabbix_web_nginx_image_name}"
     networks:
       - network-zabbix
+    links:
+      - mysql
     restart: always
     ports:
       - "8080:8080"
@@ -54,12 +60,16 @@ services:
       - "${zabbix_web_certs}:/etc/zabbix/web/certs:rw"
     env_file:
       - web-nginx.env
-
+    depends_on:
+      - mysql
+      
   zabbix-agent:
     container_name: zabbix-agent
     image: "${zabbix_agent_image_name}"
     networks:
       - network-zabbix
+    links:
+      - zabbix-server
     volumes:
       - "${zabbix_agent_d_dir}:/etc/zabbix/zabbix_agentd.d"
       - "${zabbix_agent_modules_dir}:/var/lib/zabbix/modules"
