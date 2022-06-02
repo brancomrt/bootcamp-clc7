@@ -5,11 +5,15 @@ module "vpc" {
   cidr = "10.0.0.0/16"
 
   azs             = ["us-east-1a"]
+  private_subnets = ["10.0.2.0/24"]
   public_subnets  = ["10.0.1.0/24"]
+  
 
   enable_nat_gateway = true
   single_nat_gateway = false
   one_nat_gateway_per_az = false
+  enable_dns_hostnames = true
+  enable_dns_support   = true
 
   tags = {
     Terraform = "true"
@@ -27,7 +31,7 @@ module "zabbix_sg" {
   description = "Security group para instancia do Zabbix Server"
   vpc_id      = module.vpc.vpc_id   
   ingress_cidr_blocks = ["0.0.0.0/0"]
-  ingress_rules       = ["ssh-tcp", "http-8080-tcp"]
+  ingress_rules       = ["ssh-tcp", "http-8080-tcp", "all-icmp"]
   egress_rules        = ["all-all"]
 }
 
@@ -41,6 +45,7 @@ module "zabbix_instance" {
   instance_type          = "t2.micro"
   key_name               = "vockey"
   monitoring             = true
+  private_ip             = "10.0.1.100"
   vpc_security_group_ids = [module.zabbix_sg.security_group_id]
   subnet_id              = module.vpc.public_subnets[0]
   user_data              = file("./dependencias_zabbix_ec2.sh")
@@ -70,7 +75,7 @@ module "webserver_sg" {
   description = "Security group para instancia do Web Server NGINX"
   vpc_id      = module.vpc.vpc_id   
   ingress_cidr_blocks = ["0.0.0.0/0"]
-  ingress_rules       = ["ssh-tcp", "http-80-tcp"]
+  ingress_rules       = ["ssh-tcp", "http-80-tcp", "all-icmp"]
   egress_rules        = ["all-all"]
 }
 
@@ -84,6 +89,7 @@ module "webserver_instance" {
   instance_type          = "t2.micro"
   key_name               = "vockey"
   monitoring             = true
+  private_ip             = "10.0.1.101"
   vpc_security_group_ids = [module.webserver_sg.security_group_id]
   subnet_id              = module.vpc.public_subnets[0]
   user_data              = file("./dependencias_webserver_ec2.sh")
