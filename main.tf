@@ -76,6 +76,22 @@ module "webserver_sg" {
   vpc_id      = module.vpc.vpc_id   
   ingress_cidr_blocks = ["0.0.0.0/0"]
   ingress_rules       = ["ssh-tcp", "http-80-tcp", "all-icmp"]
+  ingress_with_cidr_blocks = [
+    {
+      from_port = 10050
+      to_port   = 10050
+      protocol  = "tcp"
+      description = "zabbix-10050-tcp"
+      cidr_blocks = "10.0.1.0/24"
+    },
+    {
+      from_port = 161
+      to_port   = 161
+      protocol  = "udp"
+      description = "snmp-161-udp"
+      cidr_blocks = "10.0.1.0/24"
+    }
+  ]
   egress_rules        = ["all-all"]
 }
 

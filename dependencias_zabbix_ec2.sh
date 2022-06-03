@@ -11,3 +11,7 @@ sudo mkdir -p /var/local/storage && sudo chmod 775 /var/local/storage
 cd /tmp && git clone https://github.com/brancomrt/bootcamp-clc7.git && cd /tmp/bootcamp-clc7 && docker-compose up -d
 sudo hostnamectl set-hostname zabbix-server.localdomain
 sudo sed -i -e '$a\' -e 'preserve_hostname: true' /etc/cloud/cloud.cfg
+cat >> /etc/hosts <<EOF
+10.0.1.100  zabbix-server
+10.0.1.101  web-server
+EOF
