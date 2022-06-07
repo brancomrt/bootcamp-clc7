@@ -12,6 +12,6 @@ cd /tmp && git clone https://github.com/brancomrt/bootcamp-clc7.git && cd /tmp/b
 sudo hostnamectl set-hostname zabbix-server.localdomain
 sudo sed -i -e '$a\' -e 'preserve_hostname: true' /etc/cloud/cloud.cfg
 cat >> /etc/hosts <<EOF
-10.0.1.100  zabbix-server
+10.0.1.100  zabbix-server zabbix-agent
 10.0.1.101  web-server
 EOF

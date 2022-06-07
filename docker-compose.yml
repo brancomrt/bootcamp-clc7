@@ -22,7 +22,7 @@ services:
     security_opt:
       - seccomp:unconfined
     extra_hosts:
-      - "zabbix-server:10.0.1.100"
+      - "zabbix-server zabbix-agent:10.0.1.100"
       - "web-server:10.0.1.101"
   
   zabbix-server:
@@ -49,7 +49,7 @@ services:
     depends_on:
       - mysql
     extra_hosts:
-      - "zabbix-server:10.0.1.100"
+      - "zabbix-server zabbix-agent:10.0.1.100"
       - "web-server:10.0.1.101"
 
   zabbix-web-nginx:
@@ -70,7 +70,7 @@ services:
     depends_on:
       - mysql
     extra_hosts:
-      - "zabbix-server:10.0.1.100"
+      - "zabbix-server zabbix-agent:10.0.1.100"
       - "web-server:10.0.1.101"
       
   zabbix-agent:
@@ -90,5 +90,5 @@ services:
     ports:
       - "10050:10050"
     extra_hosts:
-      - "zabbix-server:10.0.1.100"
+      - "zabbix-server zabbix-agent:10.0.1.100"
       - "web-server:10.0.1.101"
