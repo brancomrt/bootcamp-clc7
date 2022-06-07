@@ -10,6 +10,7 @@ services:
     image: "${mysql_image_name}"
     networks:
       - network-zabbix
+    restart: always
     ports:
       - "3306:3306"
     volumes:
@@ -20,7 +21,10 @@ services:
     command: ["mysqld", "--character-set-server=utf8mb4","--collation-server=utf8mb4_bin"]
     security_opt:
       - seccomp:unconfined
-
+    extra_hosts:
+      - "zabbix-server:10.0.1.100"
+      - "web-server:10.0.1.101"
+  
   zabbix-server:
     container_name: zabbix-server
     image: "${zabbix_server_image_name}"
@@ -44,6 +48,9 @@ services:
       - server.env
     depends_on:
       - mysql
+    extra_hosts:
+      - "zabbix-server:10.0.1.100"
+      - "web-server:10.0.1.101"
 
   zabbix-web-nginx:
     container_name: zabbix-web-nginx
@@ -62,6 +69,9 @@ services:
       - web-nginx.env
     depends_on:
       - mysql
+    extra_hosts:
+      - "zabbix-server:10.0.1.100"
+      - "web-server:10.0.1.101"
       
   zabbix-agent:
     container_name: zabbix-agent
@@ -70,6 +80,7 @@ services:
       - network-zabbix
     links:
       - zabbix-server
+    restart: always
     volumes:
       - "${zabbix_agent_d_dir}:/etc/zabbix/zabbix_agentd.d"
       - "${zabbix_agent_modules_dir}:/var/lib/zabbix/modules"
@@ -78,3 +89,6 @@ services:
       - agent.env
     ports:
       - "10050:10050"
+    extra_hosts:
+      - "zabbix-server:10.0.1.100"
+      - "web-server:10.0.1.101"
