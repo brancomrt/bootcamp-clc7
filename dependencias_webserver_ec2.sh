@@ -8,9 +8,9 @@ sudo systemctl enable --now nginx
 sudo hostnamectl set-hostname web-server.localdomain
 sudo sed -i -e '$a\' -e 'preserve_hostname: true' /etc/cloud/cloud.cfg
 sudo sed -i -e '$a\' -e 'rocommunity bootcamp' /etc/snmp/snmpd.conf
-sudo systemctl enable --now snmpd
 sudo sed -i s/Server=127.0.0.1/Server=127.0.0.1,zabbix-server/g /etc/zabbix/zabbix_agent2.conf
 sudo systemctl enable --now zabbix-agent2
+sudo systemctl enable --now snmpd
 cat >> /etc/hosts <<EOF
 10.0.1.100  zabbix-server zabbix-agent
 10.0.1.101  web-server
