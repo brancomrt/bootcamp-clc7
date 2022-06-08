@@ -56,6 +56,8 @@ Criação das instâncias EC2 em cloud via terraform:
 
 Verificar na instância EC2 se os containers do zabbix-server, zabbix-agent, mysql, zabbix-web-nginx estão em execução:
 
+![](pem_ssh_key.gif)
+
 - Fazer o download da chave PEM no ambiente de cloud Learner LAB.
 
 - Copiar para a pasta de workspace bootcamp-clc7.
