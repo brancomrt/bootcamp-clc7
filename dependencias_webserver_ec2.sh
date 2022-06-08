@@ -4,7 +4,6 @@ sudo yum install yum-utils net-snmp-utils net-snmp telnet -y
 sudo yum install https://repo.zabbix.com/zabbix/5.4/rhel/7/x86_64/zabbix-release-5.4-1.el7.noarch.rpm -y
 sudo yum install zabbix-agent2 -y
 sudo amazon-linux-extras install nginx1 -y
-sudo systemctl enable --now nginx
 sudo hostnamectl set-hostname web-server.localdomain
 sudo sed -i -e '$a\' -e 'preserve_hostname: true' /etc/cloud/cloud.cfg
 sudo sed -i -e '$a\' -e 'rocommunity bootcamp' /etc/snmp/snmpd.conf
@@ -26,3 +25,4 @@ location /basic_status {
         deny all;               #deny all other hosts
 }
 EOF
+sudo systemctl enable --now nginx
