@@ -12,6 +12,6 @@ sudo sed -i s/Server=127.0.0.1/Server=127.0.0.1,zabbix-server/g /etc/zabbix/zabb
 sudo systemctl enable --now zabbix-agent2
 sudo systemctl enable --now snmpd
 cat >> /etc/hosts <<EOF
-10.0.1.100  zabbix-server zabbix-agent
+10.0.1.100  zabbix-server-host
 10.0.1.101  web-server
 EOF
