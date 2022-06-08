@@ -52,7 +52,7 @@ module "zabbix_instance" {
 
   tags = {
     Terraform = "true"
-    Environment = "Producao"
+    Environment = "Bootcamp"
     OwnerSquad = "Houston"
     OwnerSRE = "Texas"
     Team = "Devops-CLC_07"    
