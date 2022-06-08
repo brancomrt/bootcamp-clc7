@@ -10,6 +10,7 @@ services:
     image: "${mysql_image_name}"
     networks:
       - network-zabbix
+    hostname: mysql
     restart: always
     ports:
       - "3306:3306"
@@ -30,6 +31,7 @@ services:
     image: "${zabbix_server_image_name}"
     networks:
       - network-zabbix
+    hostname: zabbix-server
     links:
       - mysql
     restart: always
@@ -57,6 +59,7 @@ services:
     image: "${zabbix_web_nginx_image_name}"
     networks:
       - network-zabbix
+    hostname: zabbix-web-nginx
     links:
       - mysql
     restart: always
@@ -78,6 +81,7 @@ services:
     image: "${zabbix_agent_image_name}"
     networks:
       - network-zabbix
+    hostname: zabbix-agent
     links:
       - zabbix-server
     restart: always
