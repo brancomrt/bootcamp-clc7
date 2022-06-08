@@ -12,6 +12,8 @@ Ferramentas que deverão estar instaladas necessárias para criação do ambient
 
 Criação da máquina virtual via vagrant que conterá instalados o aws cli e terraform. Será o workspace de trabalho.
 
+![](vagrant.gif)
+
 - Abrir um terminal shell (Git Bash)
 - No home do usuário, efetuar o clone do repositório Git https://github.com/brancomrt/bootcamp-clc7.git e executar o comando de instalação da máquina virtual.
 ```
@@ -23,6 +25,8 @@ $ vagrant up
 
 - Após o término da criação e carregamento da máquina virtual, logar na máquina e configurar as credenciais do ambiente Learner LAB da cloud AWS no arquivo /home/vagrant/.aws/credentials.
 
+![](aws_credentials.gif)
+
 ```
 $ vagrant ssh
 $ aws configure 
@@ -30,6 +34,8 @@ $ vim /home/vagrant/.aws/credentials
 ```
 
 Criação das instâncias EC2 em cloud via terraform:
+
+![](terraform_init.gif)
 
   - Abrir a console da AWS e verificar que não existe as instâncias Zabbix-Server e Web-Server sendo executadas.
 
