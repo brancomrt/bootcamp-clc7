@@ -79,10 +79,15 @@ $ vagrant ssh
 
 - Através do IP elástico de cada instância, acessar através do navegador a interface gráfica:
 
+![](operacao.gif)
+
 [IP_ELASTICO]:8080  --> Zabbix Server
+
 [IP_ELASTICO]:80    --> Web Server Nginx
 
 Destruição da infraestrutura na AWS:
+
+![](destroi.gif)
 
 - Logar na máquina virtual (Workspace bootcamp-clc7):
 
@@ -92,7 +97,7 @@ $ cd bootcamp-clc7
 $ vagrant ssh
 ```
 
-- Executar o comando de inicialização de destruição da infraestrutura:
+- Executar o comando de destruição da infraestrutura:
 
 ```
 [vagrant@bootcamp-workspace ~]$ cd /vagrant
@@ -103,6 +108,8 @@ $ vagrant ssh
 
 Recriação da infraestrutura AWS:
 
+![](recriar.gif)
+
 - Logar na máquina virtual (Workspace bootcamp-clc7):
 
 ```
@@ -111,7 +118,7 @@ $ cd bootcamp-clc7
 $ vagrant ssh
 ```
 
-- Executar o comando de inicialização de destruição da infraestrutura:
+- Executar o comando para recriar a infraestrutura:
 
 ```	
 [vagrant@bootcamp-workspace ~]$ cd /vagrant
@@ -119,3 +126,12 @@ $ vagrant ssh
 ```
 
 - Aguardar o término da execução.
+
+- Através do IP elástico de cada instância, acessar através do navegador a interface gráfica:
+
+![](recriar_operacao.gif)
+
+[IP_ELASTICO]:8080  --> Zabbix Server
+
+[IP_ELASTICO]:80    --> Web Server Nginx
+
