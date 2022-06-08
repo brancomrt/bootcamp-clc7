@@ -13,7 +13,7 @@ Ferramentas que deverão estar instaladas necessárias para criação do ambient
 Criação da máquina virtual via vagrant que conterá instalados o aws cli e terraform. Será o workspace de trabalho.
 
 - Abrir um terminal shell (Git Bash)
-- No home do usuário, efeutar o clone do repositório Git https://github.com/brancomrt/bootcamp-clc7.git e executar o comando de instalação da máquina virtual.
+- No home do usuário, efetuar o clone do repositório Git https://github.com/brancomrt/bootcamp-clc7.git e executar o comando de instalação da máquina virtual.
 ```
 $ cd ~
 $ git clone https://github.com/brancomrt/bootcamp-clc7.git 
